@@ -17,7 +17,7 @@ public class SumOfImpactSpeedCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         long sum = manager.sumOfImpactSpeed();
         return Response.success("Сумма значений impactSpeed: " + sum);
     }

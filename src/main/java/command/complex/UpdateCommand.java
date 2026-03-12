@@ -2,8 +2,7 @@ package command.complex;
 
 import command.ComplexCommand;
 import handler.CollectionManager;
-import handler.InputHelper;
-import model.*;
+import model.HumanBeing;
 import request.Request;
 import request.Response;
 
@@ -19,83 +18,34 @@ public class UpdateCommand extends ComplexCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
+        String[] args = request.getArguments();
+
+        if (args == null || args.length == 0) {
+            return Response.error("Команда update требует ID элемента!");
+        }
+
+        Long id;
         try {
-            if (args == null || args.length == 0) {
-                return Response.error("Команда update требует ID элемента!");
-            }
-
-            long id = Long.parseLong(args[0]);
-            HumanBeing existing = manager.findById(id);
-
-            if (existing == null) {
-                return Response.error("Элемент с ID=" + id + " не найден!");
-            }
-
-            System.out.println("\nОбновление элемента ID=" + id);
-            System.out.println("Текущие данные: " + existing.getName());
-            System.out.println("Оставьте поле пустым, чтобы не изменять\n");
-
-            String name = InputHelper.readString("Имя [" + existing.getName() + "]: ", true);
-            if (name.isEmpty()) name = existing.getName();
-
-            System.out.println("Координаты (текущие: " + existing.getCoordinates() + "):");
-            double x = InputHelper.readDouble("  X [" + existing.getCoordinates().getX() + "]: ");
-            long y = InputHelper.readLong("  Y [" + existing.getCoordinates().getY() + "] (> -228): ", -228L);
-            Coordinates coordinates = new Coordinates(x, y);
-
-            Boolean realHero = InputHelper.readBoolean("Реальный герой [" + existing.getRealHero() + "]: ");
-
-            boolean hasToothpick = InputHelper.readBoolean("Есть зубочистка [" + existing.isHasToothpick() + "]: ");
-
-            Long impactSpeed = InputHelper.readLong("impactSpeed [" + existing.getImpactSpeed() + "] (> -428): ", -428L);
-
-            WeaponType weaponType = InputHelper.readEnum("weaponType [" + existing.getWeaponType() + "]", WeaponType.class);
-
-            Mood mood = InputHelper.readEnum("mood [" + existing.getMood() + "]", Mood.class);
-
-            Car car = existing.getCar();
-            while (true) {
-                System.out.print("Изменить данные автомобиля? (y/n): ");
-                String carChoice = InputHelper.readString("", true).trim().toLowerCase();
-
-                if (carChoice.equals("y") || carChoice.equals("yes")) {
-                    String carName = InputHelper.readString("  Имя автомобиля: ", true);
-                    if (!carName.isEmpty()) {
-                        car = new Car(carName);
-                    }
-                    break;
-                } else if (carChoice.equals("n") || carChoice.equals("no")) {
-                    break;
-                } else {
-                    System.out.println("  Введите y (да), n (нет)");
-                }
-            }
-
-            HumanBeing updated = new HumanBeing(
-                    existing.getId(),
-                    name,
-                    coordinates,
-                    existing.getCreationDate(),
-                    realHero,
-                    hasToothpick,
-                    impactSpeed,
-                    weaponType,
-                    mood,
-                    car
-            );
-
-            boolean success = manager.update(id, updated);
-            if (success) {
-                return Response.success("Элемент с ID=" + id + " обновлён");
-            } else {
-                return Response.error("Не удалось обновить элемент");
-            }
-
+            id = Long.parseLong(args[0]);
         } catch (NumberFormatException e) {
-            return Response.error("Ошибка формата числа: " + e.getMessage());
-        } catch (Exception e) {
-            return Response.error("Ошибка при обновлении: " + e.getMessage());
+            return Response.error("ID должен быть числом!");
+        }
+
+        if (manager.findById(id) == null) {
+            return Response.error("Элемент с ID=" + id + " не найден!");
+        }
+
+        HumanBeing updated = (HumanBeing) request.getData(HumanBeing.class);
+        if (updated == null) {
+            return Response.error("Внутренняя ошибка: объект HumanBeing не передан");
+        }
+
+        boolean success = manager.update(id, updated);
+        if (success) {
+            return Response.success("Элемент с ID=" + id + " обновлён");
+        } else {
+            return Response.error("Не удалось обновить элемент");
         }
     }
 }

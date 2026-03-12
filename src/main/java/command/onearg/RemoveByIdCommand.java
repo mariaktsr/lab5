@@ -17,12 +17,13 @@ public class RemoveByIdCommand extends OneArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
-        if (!isLong(args[0])) {
+    protected Response doExecute(Request request) {
+        String substring = request.getArguments()[0];
+        if (!isLong(substring)) {
             return Response.error("ID должен быть числом!");
         }
 
-        Long id = Long.parseLong(args[0]);
+        Long id = Long.parseLong(substring);
         boolean removed = manager.removeById(id);
 
         if (removed) {

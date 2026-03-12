@@ -17,8 +17,10 @@ public class ExecuteScriptCommand extends OneArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
-        String fileName = args[0].trim();
+    protected Response doExecute(Request request) {
+        String substring = request.getArguments()[0];
+
+        String fileName = substring.trim();
 
         if (fileName.isEmpty()) {
             return Response.error("Имя файла не может быть пустым!");

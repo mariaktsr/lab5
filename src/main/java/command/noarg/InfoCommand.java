@@ -17,7 +17,7 @@ public class InfoCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         String info = manager.getInfo();
         return Response.success(info);
     }

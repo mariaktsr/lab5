@@ -13,15 +13,15 @@ public abstract class NoArgCommand extends AbstractCommand {
     }
 
     @Override
-    protected final Response run(Request request, String... args) {
-        if (args != null && args.length > 0) {
+    protected final Response run(Request request) {
+        if (request.getArguments() != null && request.getArguments().length > 0) {
             return Response.error(
                     "Команда '" + name + "' не принимает аргументы!\n" +
                             "Использование: " + name
             );
         }
-        return doExecute(request, args);
+        return doExecute(request);
     }
 
-    protected abstract Response doExecute(Request request, String... args);
+    protected abstract Response doExecute(Request request);
 }

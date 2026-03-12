@@ -17,7 +17,7 @@ public class SortCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         manager.sort();
         return Response.success("Коллекция отсортирована");
     }

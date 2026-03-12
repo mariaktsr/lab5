@@ -13,13 +13,13 @@ public abstract class ComplexCommand extends AbstractCommand {
     }
 
     @Override
-    protected final Response run(Request request, String... args) {
+    protected final Response run(Request request) {
         try {
-            return doExecute(request, args);
+            return doExecute(request);
         } catch (Exception e) {
             return Response.error("Ошибка при выполнении команды: " + e.getMessage());
         }
     }
 
-    protected abstract Response doExecute(Request request, String... args);
+    protected abstract Response doExecute(Request request);
 }

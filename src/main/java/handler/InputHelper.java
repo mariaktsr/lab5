@@ -9,57 +9,87 @@ public class InputHelper {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String readString(String prompt, boolean allowEmpty) {
-        while (true) {
+        boolean validInput = false;
+        String result = "";
+
+        while (!validInput) {
             System.out.print(prompt);
             String line = scanner.nextLine().trim();
             if (!line.isEmpty() || allowEmpty) {
-                return line;
+                result = line;
+                validInput = true;
+            } else {
+                System.out.println("  Поле не может быть пустым");
             }
-            System.out.println("  Поле не может быть пустым");
         }
+        return result;
     }
 
     public static double readDouble(String prompt) {
-        while (true) {
+        boolean validInput = false;
+        double result = 0.0;
+
+        while (!validInput) {
             System.out.print(prompt);
             String line = scanner.nextLine().trim();
             try {
-                return Double.parseDouble(line);
+                result = Double.parseDouble(line);
+                validInput = true;
             } catch (NumberFormatException e) {
                 System.out.println("  Введите корректное число");
             }
         }
+        return result;
     }
 
     public static long readLong(String prompt, Long min) {
-        while (true) {
+        boolean validInput = false;
+        long result = 0;
+
+        while (!validInput) {
             System.out.print(prompt);
             String line = scanner.nextLine().trim();
             try {
                 long value = Long.parseLong(line);
                 if (min != null && value <= min) {
                     System.out.println("  Значение должно быть больше " + min);
-                    continue;
+                } else {
+                    result = value;
+                    validInput = true;
                 }
-                return value;
             } catch (NumberFormatException e) {
                 System.out.println("  Введите корректное целое число");
             }
         }
+        return result;
     }
 
     public static boolean readBoolean(String prompt) {
-        while (true) {
+        boolean validInput = false;
+        boolean result = false;
+
+        while (!validInput) {
             System.out.print(prompt);
             String line = scanner.nextLine().trim().toLowerCase();
-            if (line.equals("true")) return true;
-            if (line.equals("false")) return false;
-            System.out.println("  Введите true или false");
+
+            if (line.equals("true")) {
+                result = true;
+                validInput = true;
+            } else if (line.equals("false")) {
+                result = false;
+                validInput = true;
+            } else {
+                System.out.println("  Введите true или false");
+            }
         }
+        return result;
     }
 
     public static <T extends Enum<T>> T readEnum(String prompt, Class<T> enumClass) {
-        while (true) {
+        boolean validInput = false;
+        T result = null;
+
+        while (!validInput) {
             System.out.print(prompt);
             System.out.print("(");
             T[] constants = enumClass.getEnumConstants();
@@ -71,10 +101,12 @@ public class InputHelper {
 
             String input = scanner.nextLine().trim().toUpperCase();
             try {
-                return Enum.valueOf(enumClass, input);
+                result = Enum.valueOf(enumClass, input);
+                validInput = true;
             } catch (IllegalArgumentException e) {
                 System.out.println("  Недопустимое значение");
             }
         }
+        return result;
     }
 }

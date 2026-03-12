@@ -17,7 +17,7 @@ public class ShowCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         String result = manager.showAll();
 
         if (result == null || result.trim().isEmpty()) {

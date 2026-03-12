@@ -26,12 +26,13 @@ public abstract class AbstractCommand implements Command {
     @Override
     public final Response execute(Request request) {
         try {
-            return run(request, request.getArguments());
+            return run(request);
         } catch (Exception e) {
             return Response.error("Ошибка при выполнении команды: " + e.getMessage());
         }
     }
-    protected abstract Response run(Request request, String... args);
+
+    protected abstract Response run(Request request);
 
     protected boolean isLong(String arg) {
         try {

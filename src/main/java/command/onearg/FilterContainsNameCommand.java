@@ -17,11 +17,13 @@ public class FilterContainsNameCommand extends OneArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
-        String result = manager.filterContainsName(args[0]);
+    protected Response doExecute(Request request) {
+        String substring = request.getArguments()[0];
+
+        String result = manager.filterContainsName(substring);
 
         if (result == null || result.trim().isEmpty()) {
-            return Response.success("Элементы с именем, содержащим '" + args[0] + "', не найдены");
+            return Response.success("Элементы с именем, содержащим '" + substring + "', не найдены");
         }
 
         return Response.success(result);

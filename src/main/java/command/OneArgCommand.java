@@ -13,7 +13,9 @@ public abstract class OneArgCommand extends AbstractCommand {
     }
 
     @Override
-    protected final Response run(Request request, String... args) {
+    protected final Response run(Request request) {
+        String[] args = request.getArguments();
+
         if (args == null || args.length != 1) {
             return Response.error(
                     "Команда '" + name + "' требует 1 аргумент!\n" +
@@ -26,8 +28,8 @@ public abstract class OneArgCommand extends AbstractCommand {
                             "Использование: " + name + " {аргумент}"
             );
         }
-        return doExecute(request, args);
+        return doExecute(request);
     }
 
-    protected abstract Response doExecute(Request request, String... args);
+    protected abstract Response doExecute(Request request);
 }

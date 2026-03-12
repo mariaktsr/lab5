@@ -17,12 +17,13 @@ public class RemoveAtCommand extends OneArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
-        if (!isLong(args[0])) {
+    protected Response doExecute(Request request) {
+        String substring = request.getArguments()[0];
+        if (!isLong(substring)) {
             return Response.error("Индекс должен быть целым числом!");
         }
 
-        int index = Integer.parseInt(args[0]);
+        int index = Integer.parseInt(substring);
 
         try {
             manager.removeAt(index);

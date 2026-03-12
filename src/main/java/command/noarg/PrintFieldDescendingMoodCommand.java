@@ -17,7 +17,7 @@ public class PrintFieldDescendingMoodCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         String result = manager.printMoodDescending();
 
         if (result == null || result.trim().isEmpty()) {

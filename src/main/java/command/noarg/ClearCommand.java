@@ -17,7 +17,7 @@ public class ClearCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         manager.clear();
         return Response.success("Коллекция очищена");
     }

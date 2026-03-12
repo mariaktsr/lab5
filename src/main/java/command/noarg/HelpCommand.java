@@ -20,7 +20,7 @@ public class HelpCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         StringBuilder sb = new StringBuilder();
         sb.append("Доступные команды:\n");
         sb.append("--------------------------------------------------------\n");

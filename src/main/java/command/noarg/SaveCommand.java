@@ -20,7 +20,7 @@ public class SaveCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
+    protected Response doExecute(Request request) {
         try {
             fileManager.save(manager.getCollection());
             return Response.success("Коллекция сохранена в файл");

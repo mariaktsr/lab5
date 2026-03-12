@@ -13,9 +13,7 @@ public class ExitCommand extends NoArgCommand {
     }
 
     @Override
-    protected Response doExecute(Request request, String... args) {
-        System.out.println("Завершение программы...");
-        System.exit(0);
-        return Response.success("Программа завершена");
+    protected Response doExecute(Request request) {
+        return Response.success("");
     }
 }
